@@ -29,7 +29,7 @@ const SHELL = `<!doctype html>
 </div>
 <div id="toasts" class="toasts"></div>
 <div id="modal-root"></div>
-<script src="/assets/app.js" defer></script>
+<script src="/assets/app.js?v=20260814-route-fix" defer></script>
 </body>
 </html>`;
 

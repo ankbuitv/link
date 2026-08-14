@@ -1296,19 +1296,20 @@ async function route() {
   }
   const content = renderShell(path);
   for (const r of routes) {
-    const m = r.match(path);
-    if (m !== null && m !== undefined) {
-      try {
-        await r.page(content, m.id);
-      } catch (err) {
-        if (err?.message === 'unauthorized') return;
-        console.error('Route error:', err);
-        content.innerHTML = `<div class="card mt-16" style="border-color:var(--red)"><h3 style="color:var(--red)">Failed to load page</h3><p class="muted">${esc(err?.message || 'An unexpected error occurred.')}</p><button class="btn mt-8" id="route-retry">Retry</button></div>`;
-        const retryBtn = $('#route-retry', content);
-        if (retryBtn) retryBtn.addEventListener('click', () => route());
-      }
-      return;
+    const match = r.match(path);
+    // Exact-path matchers return a boolean while parameterized matchers return
+    // an object. A false boolean must not select the first (Overview) route.
+    if (!match) continue;
+    const params = typeof match === 'object' ? match : {};
+    try {
+      await r.page(content, params.id);
+    } catch (err) {
+      if (err?.message === 'unauthorized') return;
+      content.innerHTML = `<div class="card mt-16" style="border-color:var(--red)"><h3 style="color:var(--red)">Failed to load page</h3><p class="muted">${esc(err?.message || 'An unexpected error occurred.')}</p><button class="btn mt-8" id="route-retry">Retry</button></div>`;
+      const retryBtn = $('#route-retry', content);
+      if (retryBtn) retryBtn.addEventListener('click', () => route());
     }
+    return;
   }
   content.innerHTML = '<div class="empty"><div class="big">404</div><h3>Page not found</h3><a class="btn" href="/dashboard">Back to dashboard</a></div>';
 }
