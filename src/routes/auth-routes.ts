@@ -13,7 +13,7 @@ import {
 } from '../lib/session';
 import type { Ctx } from '../types';
 import { addRoute } from './router';
-import { requireUser, usersExist } from './helpers';
+import { isMissingSchema, requireUser, usersExist } from './helpers';
 
 /**
  * Authentication routes.
@@ -165,6 +165,13 @@ function setupAuthRoutes(): void {
         .bind(id, username, passwordHash, 'admin', now)
         .run();
     } catch (err) {
+      if (isMissingSchema(err)) {
+        return fail(
+          'DB_SCHEMA_MISSING',
+          'The database schema has not been applied yet. Run `wrangler d1 migrations apply link-center-db [--remote]` and reload.',
+          500,
+        );
+      }
       const msg = err instanceof Error && err.message.includes('UNIQUE') ? 'That username is taken.' : 'Could not create the account.';
       return fail('SETUP_FAILED', msg, 500);
     }
