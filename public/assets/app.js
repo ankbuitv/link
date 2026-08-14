@@ -56,7 +56,11 @@ async function api(path, opts = {}) {
     throw new Error('network');
   }
   if (res.status === 401 && !path.startsWith('/api/auth/')) {
-    location.href = '/login';
+    state.me = null;
+    state.csrf = null;
+    if (location.pathname !== '/login') {
+      navigate('/login');
+    }
     throw new Error('unauthorized');
   }
   let data = null;
@@ -109,10 +113,10 @@ function openPalette() {
   const results = $('.results', backdrop);
 
   const actions = [
-    { label: 'Create Link', hint: 'action', icon: '🔗', run: () => { root.innerHTML = ''; location.href = '/dashboard/links/new'; } },
-    { label: 'Compose Email', hint: 'action', icon: '✉️', run: () => { root.innerHTML = ''; location.href = '/dashboard/mail'; } },
-    { label: 'Create Campaign', hint: 'action', icon: '📣', run: () => { root.innerHTML = ''; location.href = '/dashboard/campaigns?new=1'; } },
-    { label: 'View Analytics', hint: 'action', icon: '📊', run: () => { root.innerHTML = ''; location.href = '/dashboard/analytics'; } },
+    { label: 'Create Link', hint: 'action', icon: '🔗', run: () => { root.innerHTML = ''; navigate('/dashboard/links/new'); } },
+    { label: 'Compose Email', hint: 'action', icon: '✉️', run: () => { root.innerHTML = ''; navigate('/dashboard/mail'); } },
+    { label: 'Create Campaign', hint: 'action', icon: '📣', run: () => { root.innerHTML = ''; navigate('/dashboard/campaigns?new=1'); } },
+    { label: 'View Analytics', hint: 'action', icon: '📊', run: () => { root.innerHTML = ''; navigate('/dashboard/analytics'); } },
   ];
   let links = [];
   let sel = 0;
@@ -123,7 +127,7 @@ function openPalette() {
     for (const a of actions) if (!q || a.label.toLowerCase().includes(q)) items.push({ type: 'action', ...a });
     for (const l of links) {
       const hay = `${l.slug} ${l.title || ''} ${l.destination_url}`.toLowerCase();
-      if (!q || hay.includes(q)) items.push({ type: 'link', label: `${l.type}/${l.slug}`, hint: fmtN(l.click_count) + ' clicks', icon: '↗️', run: () => { root.innerHTML = ''; location.href = `/dashboard/links/${l.id}/analytics`; } });
+      if (!q || hay.includes(q)) items.push({ type: 'link', label: `${l.type}/${l.slug}`, hint: fmtN(l.click_count) + ' clicks', icon: '↗️', run: () => { root.innerHTML = ''; navigate(`/dashboard/links/${l.id}/analytics`); } });
     }
     sel = Math.min(sel, Math.max(0, items.length - 1));
     if (!items.length) { results.innerHTML = '<div class="empty">No results</div>'; return; }
@@ -196,7 +200,12 @@ const NAV = [
 
 function renderShell(path) {
   const app = $('#app');
-  const active = NAV.find((n) => path === n.href || (n.href !== '/dashboard' && path.startsWith(n.href))) || NAV[0];
+  const normPath = path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path;
+  const sortedNav = [...NAV].sort((a, b) => b.href.length - a.href.length);
+  const active = sortedNav.find((n) => normPath === n.href || (n.href !== '/dashboard' && normPath.startsWith(n.href + '/')))
+    || NAV.find((n) => normPath === n.href)
+    || NAV[0];
+
   app.innerHTML = `
   <div class="layout">
     <aside class="sidebar" id="sidebar">
@@ -222,7 +231,7 @@ function renderShell(path) {
   $('#cmd').addEventListener('click', openPalette);
   $('#logout').addEventListener('click', async () => {
     await api('/api/auth/logout', { method: 'POST', silent: true }).catch(() => {});
-    location.href = '/login';
+    navigate('/login');
   });
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); }
@@ -374,7 +383,7 @@ async function renderLinksTable() {
     const act = b.dataset.act;
     if (act === 'copy') { await navigator.clipboard.writeText(b.dataset.url).catch(() => {}); toast('URL copied to clipboard', 'success'); }
     else if (act === 'open') window.open(b.dataset.url, '_blank', 'noopener');
-    else if (act === 'analytics') location.href = `/dashboard/links/${b.dataset.id}/analytics`;
+    else if (act === 'analytics') navigate(`/dashboard/links/${b.dataset.id}/analytics`);
     else if (act === 'edit') openEditLinkModal(b.dataset.id);
     else if (act === 'toggle') { await api(`/api/links/${b.dataset.id}/toggle`, { method: 'POST' }); toast('Link updated', 'success'); renderLinksTable(); }
     else if (act === 'more') linkMenu(b.dataset.id);
@@ -393,7 +402,7 @@ function linkMenu(id) {
       $$('[data-go]', m).forEach((b) => b.addEventListener('click', async () => {
         closeModal();
         const go = b.dataset.go;
-        if (go === 'analytics') location.href = `/dashboard/links/${id}/analytics`;
+        if (go === 'analytics') navigate(`/dashboard/links/${id}/analytics`);
         if (go === 'duplicate') { const d = await api(`/api/links/${id}/duplicate`, { method: 'POST' }); toast(`Duplicated → ${d.slug}`, 'success'); renderLinksTable(); }
         if (go === 'delete') {
           if (!confirm('Delete this link permanently? This cannot be undone.')) return;
@@ -771,7 +780,7 @@ async function pageCampaigns(content) {
 
   $$('tr[data-id]', list).forEach((tr) => tr.addEventListener('click', (e) => {
     if (e.target.closest('[data-act="del"]')) return;
-    location.href = `/dashboard/campaigns/${tr.dataset.id}`;
+    navigate(`/dashboard/campaigns/${tr.dataset.id}`);
   }));
   $$('[data-act="del"]', list).forEach((b) => b.addEventListener('click', async (e) => {
     e.stopPropagation();
@@ -801,7 +810,7 @@ function openCreateCampaignModal() {
         await api('/api/campaigns', { method: 'POST', body: { name, description: $('#c-desc', m).value.trim() || null } });
         closeModal();
         toast('Campaign created', 'success');
-        location.href = '/dashboard/campaigns';
+        navigate('/dashboard/campaigns');
       });
     } });
 }
@@ -959,7 +968,7 @@ async function pageMailCompose(content) {
       const d = await api('/api/mail/send', { method: 'POST', body: payload() });
       if (d.scheduled) toast(`Scheduled for ${new Date($('#m-schedule').value).toLocaleString()}`, 'success', 6000);
       else toast(`Sent to ${d.emails.length} recipient(s) — ${d.trackedLinks.length} tracked links`, 'success', 6000);
-      setTimeout(() => { location.href = '/dashboard/mail/history'; }, 900);
+      setTimeout(() => { navigate('/dashboard/mail/history'); }, 900);
     } catch (err) {
       if (err.status === 502) { $('#m-draft-info').textContent = 'Brevo rejected the send — see Mail History for the failed record.'; }
       btn.disabled = false; btn.textContent = '🚀 Send';
@@ -1023,7 +1032,7 @@ async function renderMailHistory() {
     </div>` : ''}`;
   $$('tr[data-id]', box).forEach((tr) => tr.addEventListener('click', (e) => {
     if (e.target.closest('[data-act="del"]')) return;
-    location.href = `/dashboard/mail/${tr.dataset.id}`;
+    navigate(`/dashboard/mail/${tr.dataset.id}`);
   }));
   $$('[data-act="del"]', box).forEach((b) => b.addEventListener('click', async (e) => {
     e.stopPropagation();
@@ -1245,16 +1254,25 @@ function pageLogin(content) {
     try {
       const d = await api('/api/auth/login', { method: 'POST', body: { username: $('#lg-u').value.trim(), password: $('#lg-p').value }, silent: true });
       state.me = d.user; state.csrf = d.csrfToken;
-      location.href = '/dashboard';
+      navigate('/dashboard');
     } catch (e) { err.textContent = e.message || 'Sign-in failed.'; }
   };
   $('#lg-b').addEventListener('click', submit);
   $('#lg-p').addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
 }
 
+function navigate(url) {
+  const next = url.startsWith('/') ? url : '/' + url;
+  const current = location.pathname + location.search;
+  if (current !== next) {
+    history.pushState(null, '', next);
+  }
+  route();
+}
+
 /* ---------------- router ---------------- */
 const routes = [
-  { match: (p) => p === '/dashboard' || p === '/dashboard/' || p === '/dashboard/overview', page: pageOverview },
+  { match: (p) => p === '/dashboard' || p === '/dashboard/overview', page: pageOverview },
   { match: (p) => p === '/dashboard/links/new', page: pageCreateLink },
   { match: (p) => p === '/dashboard/links', page: pageLinks },
   { match: (p) => { const m = p.match(/^\/dashboard\/links\/([^/]+)\/analytics$/); return m ? { id: m[1] } : null; }, page: pageLinkAnalytics },
@@ -1268,7 +1286,9 @@ const routes = [
 ];
 
 async function route() {
-  const path = location.pathname;
+  const rawPath = location.pathname;
+  const path = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
+
   if (path === '/login') {
     $('#app').innerHTML = '<div class="layout"><div class="main"><div class="content" id="content"></div></div></div>';
     pageLogin($('#content'));
@@ -1282,7 +1302,10 @@ async function route() {
         await r.page(content, m.id);
       } catch (err) {
         if (err?.message === 'unauthorized') return;
-        content.innerHTML = `<div class="error-banner">Something went wrong while loading this page. ${esc(err?.message || '')}</div>`;
+        console.error('Route error:', err);
+        content.innerHTML = `<div class="card mt-16" style="border-color:var(--red)"><h3 style="color:var(--red)">Failed to load page</h3><p class="muted">${esc(err?.message || 'An unexpected error occurred.')}</p><button class="btn mt-8" id="route-retry">Retry</button></div>`;
+        const retryBtn = $('#route-retry', content);
+        if (retryBtn) retryBtn.addEventListener('click', () => route());
       }
       return;
     }
@@ -1299,7 +1322,7 @@ async function init() {
     state.me = me.user;
     state.csrf = me.csrfToken;
   } catch {
-    location.href = '/login';
+    navigate('/login');
     return;
   }
   api('/api/settings', { silent: true }).then((s) => { state.settings = s; }).catch(() => {});
@@ -1309,14 +1332,13 @@ async function init() {
 window.addEventListener('popstate', () => route());
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href]');
-  if (a && a.origin === location.origin && !a.target && a.getAttribute('href').startsWith('/dashboard')) {
-    e.preventDefault();
-    const next = a.pathname + a.search;
-    const current = location.pathname + location.search;
-    if (current !== next) history.pushState(null, '', next);
-    // Route even when the URL is unchanged (e.g. “Create another link”
-    // from the success screen should reset the dedicated builder).
-    route();
+  if (a && a.origin === location.origin && !a.target) {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('/dashboard') || a.pathname.startsWith('/dashboard') || href === '/login') {
+      e.preventDefault();
+      const next = a.pathname + a.search;
+      navigate(next);
+    }
   }
 });
 init();

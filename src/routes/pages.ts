@@ -1,7 +1,7 @@
 import { cfg } from '../config';
 import type { Ctx } from '../types';
 import { html } from '../lib/http';
-import { getSessionCookie, verifySession } from '../lib/session';
+import { clearSessionCookieHeader, getSessionCookie, verifySession } from '../lib/session';
 import { addRoute } from './router';
 
 /**
@@ -50,8 +50,24 @@ function registerPageRoutes(): void {
 
   addRoute('GET', '/login', async (ctx: Ctx) => {
     const cookie = getSessionCookie(ctx.request);
-    if (cookie && (await verifySession(ctx.env, cookie))) {
-      return Response.redirect(new URL('/dashboard', ctx.request.url).toString(), 302);
+    if (cookie) {
+      const session = await verifySession(ctx.env, cookie);
+      if (session) {
+        const user = await ctx.env.DB.prepare('SELECT id FROM users WHERE id = ?')
+          .bind(session.userId)
+          .first<{ id: string }>();
+        if (user) {
+          return Response.redirect(new URL('/dashboard', ctx.request.url).toString(), 302);
+        }
+      }
+      // Stale or orphaned session cookie — clear it so the client won't redirect loop.
+      const appName = cfg(ctx.env).appName;
+      return html(SHELL.replace('<title>Link Center</title>', `<title>${appName}</title>`), {
+        headers: {
+          'Cache-Control': 'no-store',
+          'Set-Cookie': clearSessionCookieHeader(ctx.secure),
+        },
+      });
     }
     return dashboardShell(ctx);
   });
