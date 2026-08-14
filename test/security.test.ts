@@ -180,15 +180,22 @@ describe('security headers & misc', () => {
     expect(csp).toContain("object-src 'none'");
   });
 
-  it('serves static assets and the dedicated create-link route', async () => {
+  it('serves the SPA router and the dedicated create-link route', async () => {
     const asset = await anonFetch('/assets/app.js');
     expect(asset.status).toBe(200);
     expect(asset.headers.get('Content-Type') || '').toContain('javascript');
-    expect(await asset.text()).toContain('Create a new link');
+    expect(asset.headers.get('Cache-Control')).toBe('no-cache');
+    const script = await asset.text();
+    expect(script).toContain('Create a new link');
+    // Regression: boolean matchers return false for unrelated paths. The
+    // router must skip them instead of always selecting Overview first.
+    expect(script).toContain('if (!match) continue;');
 
     const page = await anonFetch('/dashboard/links/new');
     expect(page.status).toBe(200);
-    expect(await page.text()).toContain('<div id="app"');
+    const shell = await page.text();
+    expect(shell).toContain('<div id="app"');
+    expect(shell).toContain('/assets/app.js?v=20260814-route-fix');
   });
 
   it('robots.txt disallows crawling', async () => {

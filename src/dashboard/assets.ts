@@ -23,7 +23,9 @@ export function registerAssetRoutes(): void {
       headers: {
         ...SECURITY_HEADERS,
         'Content-Type': 'text/javascript; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600',
+        // Always revalidate the SPA router so a deploy cannot leave browsers
+        // running stale navigation code.
+        'Cache-Control': 'no-cache',
       },
     }),
   );
