@@ -109,7 +109,7 @@ function openPalette() {
   const results = $('.results', backdrop);
 
   const actions = [
-    { label: 'Create Link', hint: 'action', icon: '🔗', run: () => { root.innerHTML = ''; location.href = '/dashboard/links?new=1'; } },
+    { label: 'Create Link', hint: 'action', icon: '🔗', run: () => { root.innerHTML = ''; location.href = '/dashboard/links/new'; } },
     { label: 'Compose Email', hint: 'action', icon: '✉️', run: () => { root.innerHTML = ''; location.href = '/dashboard/mail'; } },
     { label: 'Create Campaign', hint: 'action', icon: '📣', run: () => { root.innerHTML = ''; location.href = '/dashboard/campaigns?new=1'; } },
     { label: 'View Analytics', hint: 'action', icon: '📊', run: () => { root.innerHTML = ''; location.href = '/dashboard/analytics'; } },
@@ -153,7 +153,6 @@ function lineChart(series, { height = 150 } = {}) {
   const step = (w - pad * 2) / Math.max(1, series.length - 1);
   const pts = series.map((s, i) => `${pad + i * step},${h - pad - (s.clicks / max) * (h - pad * 2)}`);
   const area = `${pad},${h - pad} ${pts.join(' ')} ${w - pad},${h - pad}`;
-  const labels = series.length <= 31 ? series.map((s) => s.label) : series.filter((_, i) => i % Math.ceil(series.length / 8) === 0).map((s) => s.label);
   return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="height:${h}px">
     <defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#2563eb" stop-opacity="0.28"/><stop offset="100%" stop-color="#2563eb" stop-opacity="0"/></linearGradient></defs>
@@ -168,7 +167,7 @@ function lineChart(series, { height = 150 } = {}) {
 function barChart(items, { color = '#3b82f6', height = 150 } = {}) {
   if (!items || !items.length) return '<div class="empty">No data yet</div>';
   const max = Math.max(1, ...items.map((i) => i.value));
-  const bars = items.map((i) => `<div class="bar" style="height:${(i.value / max) * 100}%" title="${esc(i.label)}: ${fmtN(i.value)}"></div>`).join('');
+  const bars = items.map((i) => `<div class="bar" style="height:${(i.value / max) * 100}%;background:${esc(color)}" title="${esc(i.label)}: ${fmtN(i.value)}"></div>`).join('');
   const step = Math.ceil(items.length / 10);
   return `<div class="bars" style="height:${height}px">${bars}</div>
     <div class="bar-axis">${items.filter((_, i) => i % step === 0 || i === items.length - 1).map((i) => `<span>${esc(i.label)}</span>`).join('')}</div>`;
@@ -251,7 +250,7 @@ async function pageOverview(content) {
     <div class="card mt-16">
       <div class="row between"><h3>Quick actions</h3></div>
       <div class="row wrap">
-        <a class="btn primary" href="/dashboard/links?new=1">＋ Create Link</a>
+        <a class="btn primary" href="/dashboard/links/new">＋ Create Link</a>
         <a class="btn" href="/dashboard/mail">✉️ Compose Email</a>
         <a class="btn" href="/dashboard/campaigns?new=1">📣 Create Campaign</a>
         <a class="btn" href="/dashboard/analytics">📊 View Analytics</a>
@@ -283,7 +282,11 @@ let linksState = { page: 1, search: '', type: '', status: '', sort: 'created', p
 
 async function pageLinks(content) {
   const params = new URLSearchParams(location.search);
-  const createOpen = params.get('new') === '1';
+  // Backward compatibility for old bookmarked create links.
+  if (params.get('new') === '1') {
+    history.replaceState(null, '', '/dashboard/links/new');
+    return pageCreateLink(content);
+  }
   const q = { ...linksState, page: params.get('page') ? Number(params.get('page')) : linksState.page };
   linksState = q;
   content.innerHTML = `
@@ -293,7 +296,7 @@ async function pageLinks(content) {
         <select id="lt"><option value="">All types</option><option value="track" ${q.type === 'track' ? 'selected' : ''}>Track</option><option value="short" ${q.type === 'short' ? 'selected' : ''}>Short</option><option value="landing" ${q.type === 'landing' ? 'selected' : ''}>Landing</option></select>
         <select id="lst"><option value="">All statuses</option><option value="active" ${q.status === 'active' ? 'selected' : ''}>Active</option><option value="disabled" ${q.status === 'disabled' ? 'selected' : ''}>Disabled</option><option value="archived" ${q.status === 'archived' ? 'selected' : ''}>Archived</option></select>
       </div>
-      <a class="btn primary" href="/dashboard/links?new=1">＋ Create Link</a>
+      <a class="btn primary" href="/dashboard/links/new">＋ Create Link</a>
     </div>
     <div class="card mt-16" id="linksTable"><div class="boot"><div class="spinner"></div></div></div>`;
 
@@ -302,7 +305,6 @@ async function pageLinks(content) {
   $('#lst').addEventListener('change', () => { linksState.status = $('#lst').value; linksState.page = 1; renderLinksTable(); });
 
   await renderLinksTable();
-  if (createOpen) openCreateLinkModal();
 }
 
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
@@ -352,7 +354,7 @@ async function renderLinksTable() {
               <button class="icon-btn" title="${l.status === 'active' ? 'Disable' : 'Enable'}" data-act="toggle" data-id="${esc(l.id)}">${l.status === 'active' ? '⏸' : '▶️'}</button>
               <button class="icon-btn" title="More" data-act="more" data-id="${esc(l.id)}">⋯</button>
             </div></td>
-          </tr>`).join('') : '<tr><td colspan="10"><div class="empty"><div class="big">🔗</div><h3>No links found</h3><p>Create your first link to get started.</p><a class="btn primary" href="/dashboard/links?new=1">Create Link</a></div></td></tr>'}
+          </tr>`).join('') : '<tr><td colspan="10"><div class="empty"><div class="big">🔗</div><h3>No links found</h3><p>Create your first link to get started.</p><a class="btn primary" href="/dashboard/links/new">Create Link</a></div></td></tr>'}
       </tbody>
     </table>
     </div>
@@ -375,11 +377,11 @@ async function renderLinksTable() {
     else if (act === 'analytics') location.href = `/dashboard/links/${b.dataset.id}/analytics`;
     else if (act === 'edit') openEditLinkModal(b.dataset.id);
     else if (act === 'toggle') { await api(`/api/links/${b.dataset.id}/toggle`, { method: 'POST' }); toast('Link updated', 'success'); renderLinksTable(); }
-    else if (act === 'more') linkMenu(b.dataset.id, b);
+    else if (act === 'more') linkMenu(b.dataset.id);
   }));
 }
 
-function linkMenu(id, anchor) {
+function linkMenu(id) {
   openModal(`
     <h2>Link actions</h2>
     <div class="m-sub">What would you like to do?</div>
@@ -401,71 +403,223 @@ function linkMenu(id, anchor) {
     } });
 }
 
-function openCreateLinkModal() {
-  const campaigns = state.campaigns;
-  openModal(`
-    <h2>Create link</h2>
-    <div class="m-sub">Generate a tracked, short or landing link.</div>
-    <div class="field"><label>Destination URL</label><input type="url" id="cl-dest" placeholder="https://example.com/something" required></div>
-    <div class="form-row">
-      <div class="field"><label>Type</label><select id="cl-type">
-        <option value="track">Track Link (/track/:id)</option>
-        <option value="short">Short Link (/r/:id)</option>
-        <option value="landing">Landing Link (/go/:id)</option>
-      </select></div>
-      <div class="field"><label>Slug</label>
-        <input type="text" id="cl-slug" placeholder="Auto-generate (leave empty)">
-        <div class="hint">2-64 chars: letters, numbers, - and _</div>
+async function pageCreateLink(content) {
+  content.innerHTML = '<div class="boot page-boot"><div class="spinner"></div><p>Preparing link builder…</p></div>';
+
+  if (!state.campaigns.length) {
+    const campaigns = await api('/api/campaigns', { silent: true }).catch(() => ({ items: [] }));
+    state.campaigns = campaigns.items || [];
+  }
+
+  content.innerHTML = `
+    <div class="create-head">
+      <div>
+        <a class="back-link" href="/dashboard/links">← Back to links</a>
+        <h1>Create a new link</h1>
+        <p>Choose how your link behaves, then publish it in one step.</p>
       </div>
+      <div class="create-step"><span>1</span> Configure <i></i><span>2</span> Publish</div>
     </div>
-    <div class="form-row">
-      <div class="field"><label>Title</label><input type="text" id="cl-title" placeholder="Optional"></div>
-      <div class="field"><label>Campaign</label><select id="cl-campaign"><option value="">— None —</option>${campaigns.map((c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('')}</select></div>
-    </div>
-    <div class="field" id="cl-desc-wrap" hidden><label>Description</label><input type="text" id="cl-desc" placeholder="Shown on the landing page"></div>
-    <div class="form-row" id="cl-landing-opts" hidden>
-      <div class="field"><label>Button text</label><input type="text" id="cl-btn" placeholder="Continue"></div>
-      <div class="field"><label>Delay (seconds)</label><input type="number" id="cl-delay" value="0" min="0" max="300"></div>
-    </div>
-    <div class="form-row">
-      <div class="field"><label>Expiration</label><input type="datetime-local" id="cl-exp"></div>
-      <div class="field"><label>Status</label><select id="cl-status"><option value="active">Active</option><option value="disabled">Disabled</option></select></div>
-    </div>
-    <div class="m-foot">
-      <button class="btn ghost" id="cl-cancel">Cancel</button>
-      <button class="btn primary" id="cl-submit">Create Link</button>
-    </div>`, { onMount: (m) => {
-      $('#cl-type', m).addEventListener('change', () => {
-        $('#cl-landing-opts', m).hidden = $('#cl-type', m).value !== 'landing';
-        $('#cl-desc-wrap', m).hidden = !['landing'].includes($('#cl-type', m).value);
-      });
-      $('#cl-cancel', m).addEventListener('click', closeModal);
-      $('#cl-submit', m).addEventListener('click', async () => {
-        const body = {
-          destinationUrl: $('#cl-dest', m).value.trim(),
-          type: $('#cl-type', m).value,
-          slug: $('#cl-slug', m).value.trim(),
-          title: $('#cl-title', m).value.trim() || null,
-          description: $('#cl-desc', m).value.trim() || null,
-          campaignId: $('#cl-campaign', m).value || null,
-          buttonText: $('#cl-btn', m).value.trim() || null,
-          delaySeconds: Number($('#cl-delay', m).value || 0),
-          status: $('#cl-status', m).value,
-        };
-        const exp = $('#cl-exp', m).value;
-        if (exp) body.expiresAt = Math.floor(new Date(exp).getTime() / 1000);
-        const btn = $('#cl-submit', m);
-        btn.disabled = true; btn.textContent = 'Creating…';
-        try {
-          const d = await api('/api/links', { method: 'POST', body });
-          closeModal();
-          toast(`Link created: /${d.type}/${d.slug}`, 'success');
-          if (confirm('Open the new link in a new tab?')) window.open(d.publicUrl, '_blank', 'noopener');
-          renderLinksTable();
-        } catch { btn.disabled = false; btn.textContent = 'Create Link'; }
-      });
-      if (!state.campaigns.length) api('/api/campaigns', { silent: true }).then((d) => { state.campaigns = d.items || []; }).catch(() => {});
-    } });
+
+    <form id="create-link-form" class="create-layout" novalidate>
+      <div class="create-main">
+        <section class="builder-card">
+          <div class="section-kicker">Link type</div>
+          <h2>How should this link open?</h2>
+          <div class="type-picker" role="radiogroup" aria-label="Link type">
+            <label class="type-option selected">
+              <input type="radio" name="linkType" value="track" checked>
+              <span class="type-icon blue">↗</span>
+              <span><b>Tracked redirect</b><small>Redirect instantly and collect full click analytics.</small><code>/track/</code></span>
+              <em>✓</em>
+            </label>
+            <label class="type-option">
+              <input type="radio" name="linkType" value="short">
+              <span class="type-icon cyan">⚡</span>
+              <span><b>Short link</b><small>A compact redirect for sharing anywhere.</small><code>/r/</code></span>
+              <em>✓</em>
+            </label>
+            <label class="type-option">
+              <input type="radio" name="linkType" value="landing">
+              <span class="type-icon violet">▣</span>
+              <span><b>Landing page</b><small>Show a branded page before visitors continue.</small><code>/go/</code></span>
+              <em>✓</em>
+            </label>
+          </div>
+        </section>
+
+        <section class="builder-card">
+          <div class="section-kicker">Destination</div>
+          <h2>Where should visitors go?</h2>
+          <div class="field">
+            <label for="cl-dest">Destination URL <strong>*</strong></label>
+            <div class="input-with-icon"><span>🌐</span><input type="url" id="cl-dest" placeholder="https://example.com/your-page" autocomplete="url" required></div>
+            <div class="err" id="cl-dest-error"></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="cl-slug">Custom slug</label><div class="slug-input"><span id="cl-prefix">/track/</span><input type="text" id="cl-slug" placeholder="auto-generated" maxlength="64"></div><div class="hint">Leave blank for a secure random slug.</div><div class="err" id="cl-slug-error"></div></div>
+            <div class="field"><label for="cl-title">Internal title</label><input type="text" id="cl-title" placeholder="e.g. Summer campaign" maxlength="200"><div class="hint">Only visible inside your dashboard.</div></div>
+          </div>
+        </section>
+
+        <section class="builder-card landing-fields" id="cl-landing" hidden>
+          <div class="section-kicker">Landing page</div>
+          <h2>Customize the visitor experience</h2>
+          <div class="field"><label for="cl-desc">Description</label><textarea id="cl-desc" placeholder="Tell visitors what they will find after continuing…" maxlength="1000"></textarea></div>
+          <div class="form-row">
+            <div class="field"><label for="cl-btn">Button text</label><input type="text" id="cl-btn" value="Continue" maxlength="80"></div>
+            <div class="field"><label for="cl-delay">Automatic redirect delay</label><div class="input-suffix"><input type="number" id="cl-delay" value="0" min="0" max="300"><span>seconds</span></div></div>
+          </div>
+        </section>
+
+        <section class="builder-card">
+          <div class="section-kicker">Options</div>
+          <h2>Organize and control</h2>
+          <div class="form-row">
+            <div class="field"><label for="cl-campaign">Campaign</label><select id="cl-campaign"><option value="">No campaign</option>${state.campaigns.map((c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('')}</select></div>
+            <div class="field"><label for="cl-exp">Expiration</label><input type="datetime-local" id="cl-exp"><div class="hint">Optional — the link stops working after this time.</div></div>
+          </div>
+          <label class="status-switch"><input type="checkbox" id="cl-active" checked><span></span><b>Publish as active</b><small>Visitors can use the link immediately.</small></label>
+        </section>
+      </div>
+
+      <aside class="create-side">
+        <div class="preview-card">
+          <div class="preview-top"><span>Live preview</span><span class="live-dot">● Ready</span></div>
+          <div class="preview-icon" id="preview-icon">↗</div>
+          <h3 id="preview-title">Tracked redirect</h3>
+          <p id="preview-description">Visitors go straight to your destination while every click is measured.</p>
+          <div class="preview-url"><small>Your new link</small><div><span id="preview-base">${esc(location.origin)}/track/</span><b id="preview-slug">random-slug</b></div></div>
+          <div class="preview-destination"><span>→</span><div><small>Redirects to</small><strong id="preview-dest">Add a destination URL</strong></div></div>
+        </div>
+        <div class="publish-card">
+          <div class="form-error" id="cl-form-error" hidden></div>
+          <button class="btn primary lg publish-btn" id="cl-submit" type="submit"><span>＋</span> Create link</button>
+          <p>You can edit, pause, or delete this link anytime.</p>
+        </div>
+      </aside>
+    </form>`;
+
+  const form = $('#create-link-form', content);
+  const typeInfo = {
+    track: { prefix: '/track/', icon: '↗', title: 'Tracked redirect', description: 'Visitors go straight to your destination while every click is measured.' },
+    short: { prefix: '/r/', icon: '⚡', title: 'Short link', description: 'A clean, compact URL that redirects visitors instantly.' },
+    landing: { prefix: '/go/', icon: '▣', title: 'Landing page', description: 'Visitors see your custom landing page before continuing.' },
+  };
+
+  const selectedType = () => $('input[name="linkType"]:checked', form).value;
+  const updatePreview = () => {
+    const type = selectedType();
+    const info = typeInfo[type];
+    $$('.type-option', form).forEach((option) => option.classList.toggle('selected', $('input', option).checked));
+    $('#cl-prefix', form).textContent = info.prefix;
+    $('#preview-base', form).textContent = location.origin + info.prefix;
+    $('#preview-icon', form).textContent = info.icon;
+    $('#preview-title', form).textContent = info.title;
+    $('#preview-description', form).textContent = info.description;
+    $('#preview-slug', form).textContent = $('#cl-slug', form).value.trim() || 'random-slug';
+    $('#cl-landing', form).hidden = type !== 'landing';
+  };
+
+  $$('input[name="linkType"]', form).forEach((radio) => radio.addEventListener('change', updatePreview));
+  $('#cl-slug', form).addEventListener('input', updatePreview);
+  $('#cl-dest', form).addEventListener('input', () => {
+    const value = $('#cl-dest', form).value.trim();
+    $('#preview-dest', form).textContent = value ? shortUrl(value) : 'Add a destination URL';
+    $('#cl-dest-error', form).textContent = '';
+  });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const destinationUrl = $('#cl-dest', form).value.trim();
+    const slug = $('#cl-slug', form).value.trim();
+    const destinationError = $('#cl-dest-error', form);
+    const slugError = $('#cl-slug-error', form);
+    const formError = $('#cl-form-error', form);
+    destinationError.textContent = '';
+    slugError.textContent = '';
+    formError.hidden = true;
+
+    try {
+      const parsed = new URL(destinationUrl);
+      if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error();
+    } catch {
+      destinationError.textContent = 'Enter a complete URL beginning with http:// or https://';
+      $('#cl-dest', form).focus();
+      return;
+    }
+    if (slug && !/^[A-Za-z0-9_-]{2,64}$/.test(slug)) {
+      slugError.textContent = 'Use 2–64 letters, numbers, hyphens, or underscores.';
+      $('#cl-slug', form).focus();
+      return;
+    }
+
+    const body = {
+      destinationUrl,
+      type: selectedType(),
+      slug,
+      title: $('#cl-title', form).value.trim() || null,
+      campaignId: $('#cl-campaign', form).value || null,
+      status: $('#cl-active', form).checked ? 'active' : 'disabled',
+    };
+    if (body.type === 'landing') {
+      body.description = $('#cl-desc', form).value.trim() || null;
+      body.buttonText = $('#cl-btn', form).value.trim() || null;
+      body.delaySeconds = Number($('#cl-delay', form).value || 0);
+    }
+    const expires = $('#cl-exp', form).value;
+    if (expires) body.expiresAt = Math.floor(new Date(expires).getTime() / 1000);
+
+    const button = $('#cl-submit', form);
+    button.disabled = true;
+    button.innerHTML = '<span class="mini-spinner"></span> Creating link…';
+    try {
+      const link = await api('/api/links', { method: 'POST', body, silent: true });
+      showCreatedLink(content, link);
+    } catch (error) {
+      const message = error?.message || 'Could not create the link. Please try again.';
+      formError.textContent = message;
+      formError.hidden = false;
+      if (error?.status === 409) {
+        slugError.textContent = message;
+        $('#cl-slug', form).focus();
+      }
+      button.disabled = false;
+      button.innerHTML = '<span>＋</span> Create link';
+    }
+  });
+
+  updatePreview();
+  $('#cl-dest', form).focus();
+}
+
+function showCreatedLink(content, link) {
+  content.innerHTML = `
+    <div class="created-wrap">
+      <div class="created-card">
+        <div class="success-mark"><span>✓</span></div>
+        <div class="success-kicker">Link published</div>
+        <h1>Your link is ready!</h1>
+        <p>Copy it now or open it to make sure everything looks right.</p>
+        <div class="created-url">
+          <div><small>Public URL</small><strong>${esc(link.publicUrl)}</strong></div>
+          <button class="btn primary" id="created-copy">📋 Copy link</button>
+        </div>
+        <div class="created-route"><span class="pill ${esc(link.type)}">${esc(link.type)}</span><span>Redirects to</span><b>${esc(shortUrl(link.destination_url))}</b></div>
+        <div class="created-actions">
+          <a class="btn" href="/dashboard/links">View all links</a>
+          <a class="btn" href="/dashboard/links/${esc(link.id)}/analytics">View analytics</a>
+          <button class="btn primary" id="created-open">Open link ↗</button>
+        </div>
+        <a class="create-another" href="/dashboard/links/new">＋ Create another link</a>
+      </div>
+    </div>`;
+  $('#created-copy', content).addEventListener('click', async () => {
+    await navigator.clipboard.writeText(link.publicUrl).catch(() => {});
+    $('#created-copy', content).textContent = '✓ Copied';
+    toast('Link copied to clipboard', 'success');
+  });
+  $('#created-open', content).addEventListener('click', () => window.open(link.publicUrl, '_blank', 'noopener'));
 }
 
 async function openEditLinkModal(id) {
@@ -1101,6 +1255,7 @@ function pageLogin(content) {
 /* ---------------- router ---------------- */
 const routes = [
   { match: (p) => p === '/dashboard' || p === '/dashboard/' || p === '/dashboard/overview', page: pageOverview },
+  { match: (p) => p === '/dashboard/links/new', page: pageCreateLink },
   { match: (p) => p === '/dashboard/links', page: pageLinks },
   { match: (p) => { const m = p.match(/^\/dashboard\/links\/([^/]+)\/analytics$/); return m ? { id: m[1] } : null; }, page: pageLinkAnalytics },
   { match: (p) => p === '/dashboard/campaigns', page: pageCampaigns },
@@ -1156,10 +1311,12 @@ document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href]');
   if (a && a.origin === location.origin && !a.target && a.getAttribute('href').startsWith('/dashboard')) {
     e.preventDefault();
-    if (location.pathname !== a.getAttribute('href')) {
-      history.pushState(null, '', a.getAttribute('href'));
-      route();
-    }
+    const next = a.pathname + a.search;
+    const current = location.pathname + location.search;
+    if (current !== next) history.pushState(null, '', next);
+    // Route even when the URL is unchanged (e.g. “Create another link”
+    // from the success screen should reset the dedicated builder).
+    route();
   }
 });
 init();

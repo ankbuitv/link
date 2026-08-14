@@ -7,6 +7,16 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    files: ['public/assets/**/*.js'],
+    languageOptions: {
+      globals: {
+        document: 'readonly', window: 'readonly', location: 'readonly', history: 'readonly',
+        navigator: 'readonly', fetch: 'readonly', URL: 'readonly', URLSearchParams: 'readonly',
+        setTimeout: 'readonly', clearTimeout: 'readonly', confirm: 'readonly',
+      },
+    },
+  },
+  {
     files: ['src/**/*.ts', 'test/**/*.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',

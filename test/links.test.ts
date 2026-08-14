@@ -27,10 +27,11 @@ describe('link creation', () => {
     expect(data.publicUrl).toContain(`/track/${data.slug}`);
   });
 
-  it('creates a link with a custom slug', async () => {
+  it('creates a link with a custom slug and the correct public route', async () => {
     const { data } = await createLink({ destinationUrl: 'https://example.com/x', type: 'short', slug: 'my-custom-slug' });
     expect(data.slug).toBe('my-custom-slug');
     expect(data.type).toBe('short');
+    expect(data.publicUrl).toBe('https://link.ankb.qzz.io/r/my-custom-slug');
   });
 
   it('rejects a reserved slug', async () => {
@@ -66,6 +67,7 @@ describe('link creation', () => {
     expect(data.type).toBe('landing');
     expect(data.title).toBe('School Update');
     expect(data.delay_seconds).toBe(3);
+    expect(data.publicUrl).toBe(`https://link.ankb.qzz.io/go/${data.slug}`);
   });
 });
 

@@ -171,10 +171,15 @@ describe('security headers & misc', () => {
     expect(csp).toContain("object-src 'none'");
   });
 
-  it('serves static assets', async () => {
-    const res = await anonFetch('/assets/app.js');
-    expect(res.status).toBe(200);
-    expect(res.headers.get('Content-Type') || '').toContain('javascript');
+  it('serves static assets and the dedicated create-link route', async () => {
+    const asset = await anonFetch('/assets/app.js');
+    expect(asset.status).toBe(200);
+    expect(asset.headers.get('Content-Type') || '').toContain('javascript');
+    expect(await asset.text()).toContain('Create a new link');
+
+    const page = await anonFetch('/dashboard/links/new');
+    expect(page.status).toBe(200);
+    expect(await page.text()).toContain('<div id="app"');
   });
 
   it('robots.txt disallows crawling', async () => {
