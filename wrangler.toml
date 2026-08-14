@@ -1,0 +1,77 @@
+# ============================================================================
+# link-center — Cloudflare Workers configuration
+#
+# Custom domain (zone must be attached to your Cloudflare account):
+#   routes = [{ pattern = "link.ankb.qzz.io", custom_domain = true }]
+#
+# First deploy:
+#   1. Create resources (or let wrangler auto-provision by leaving IDs blank):
+#        wrangler d1 create link-center-db
+#        wrangler kv namespace create KV
+#      then paste the returned ids below (or simply run `wrangler deploy`
+#      with the blank bindings — modern Wrangler auto-creates and writes IDs
+#      back to this file).
+#   2. Apply migrations:
+#        wrangler d1 migrations apply link-center-db --remote
+#   3. Set secrets (never commit them):
+#        wrangler secret put BREVO_API_KEY
+#        wrangler secret put BREVO_WEBHOOK_SECRET
+#        wrangler secret put CLICK_SALT
+#   4. Deploy:
+#        wrangler deploy
+# ============================================================================
+
+name = "link-center"
+main = "src/index.ts"
+compatibility_date = "2026-08-13"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# --- Custom domain ----------------------------------------------------------
+# Handles https://link.ankb.qzz.io/* on the Worker.
+[[routes]]
+pattern = "link.ankb.qzz.io"
+custom_domain = true
+
+# --- Plain-text variables (non-secret; fine to commit) ----------------------
+[vars]
+APP_NAME = "Link Center"
+APP_URL = "https://link.ankb.qzz.io"
+DEFAULT_REDIRECT_STATUS = "302"
+SESSION_DAYS = "30"
+LOGIN_RATE_LIMIT = "10"
+LOGIN_RATE_WINDOW_SECONDS = "300"
+API_RATE_LIMIT = "300"
+API_RATE_WINDOW_SECONDS = "60"
+ANALYTICS_RETENTION_DAYS = "365"
+# Override for testing / self-hosting Brevo-compatible endpoints.
+# BREVO_API_BASE_URL = "https://api.brevo.com/v3"
+
+# --- Module rules: bundle dashboard assets as raw text ----------------------
+[[rules]]
+type = "Text"
+globs = ["**/public/assets/app.js", "**/public/assets/styles.css"]
+fallthrough = false
+
+# --- D1 database ------------------------------------------------------------
+# Leave ids blank for automatic provisioning (wrangler dev / deploy), or fill:
+#   wrangler d1 create link-center-db
+[[d1_databases]]
+binding = "DB"
+database_name = "link-center-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+preview_database_id = "00000000-0000-0000-0000-000000000001"
+migrations_dir = "migrations"
+
+# --- KV namespace -----------------------------------------------------------
+#   wrangler kv namespace create KV
+[[kv_namespaces]]
+binding = "KV"
+id = "00000000000000000000000000000000"
+
+# --- Secrets (set with `wrangler secret put <NAME>`, never in this file) ----
+# BREVO_API_KEY          Brevo API key (xkeysib-...). Server-side only.
+# BREVO_SENDER_EMAIL     Default sender email address.
+# BREVO_SENDER_NAME      Default sender display name.
+# BREVO_WEBHOOK_SECRET   Shared token for Brevo webhook verification.
+# CLICK_SALT             Random secret used to anonymise click analytics.
