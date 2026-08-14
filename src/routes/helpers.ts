@@ -58,10 +58,26 @@ export async function requireUserMutation(ctx: Ctx): Promise<AuthResult | Respon
   return auth;
 }
 
+/**
+ * True when a D1 error is caused by the schema not being applied yet
+ * (migrations pending). Recognised by the `no such table` marker SQLite
+ * reports for the missing `users` table.
+ */
+export function isMissingSchema(err: unknown): boolean {
+  return err instanceof Error && /no such table|no such column/i.test(err.message);
+}
+
 /** True when the users table is empty (first-run bootstrap). */
 export async function usersExist(env: Ctx['env']): Promise<boolean> {
-  const row = await env.DB.prepare('SELECT COUNT(*) AS n FROM users').first<{ n: number }>();
-  return Number(row?.n ?? 0) > 0;
+  try {
+    const row = await env.DB.prepare('SELECT COUNT(*) AS n FROM users').first<{ n: number }>();
+    return Number(row?.n ?? 0) > 0;
+  } catch (err) {
+    // Schema not applied yet: there are no users, so treat as first-run.
+    // The setup page will render and guide the operator to run migrations.
+    if (isMissingSchema(err)) return false;
+    throw err;
+  }
 }
 
 export { createSession, sessionCookieHeader, clearSessionCookieHeader, deleteSession, hashPassword, verifyPassword, ok };
