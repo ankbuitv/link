@@ -95,15 +95,20 @@ wrangler.toml              Worker config, D1/KV bindings, custom domain
 
 ### 2. Create resources & configure
 
+The D1 database and KV namespace are **auto-provisioned** on first deploy
+(IDs are intentionally blank in `wrangler.toml`). To create them manually
+instead — from the Cloudflare dashboard, no CLI needed — paste the IDs into
+`wrangler.toml`:
+
 ```bash
 npm install
 
-# D1 + KV (leave IDs blank in wrangler.toml for auto-provisioning,
-# or create manually and paste the ids):
-npx wrangler d1 create link-center-db
-npx wrangler kv namespace create KV
+# Optional: create resources yourself and pin their IDs in wrangler.toml
+#   Dashboard → Workers & Pages → D1 → Create database ("link-center-db")
+#   Dashboard → Workers & Pages → KV → Create namespace ("KV")
+#   then add database_id / id to wrangler.toml.
 
-# Apply the schema:
+# Apply the schema (after the first deploy):
 npx wrangler d1 migrations apply link-center-db --remote
 
 # Secrets (NEVER commit these):
@@ -125,9 +130,17 @@ custom_domain = true
 
 ### 3. Deploy
 
+Deploy from your machine:
+
 ```bash
 npx wrangler deploy
 ```
+
+Or via the **Cloudflare dashboard Git integration** (Workers Builds / Pages):
+make sure the build runs against the branch that contains `wrangler.toml`
+(merge this PR into `main` first), with build command `npx wrangler deploy`.
+Cloudflare runs the command in its own cloud build environment — you do not
+need wrangler installed locally.
 
 ### 4. First-run setup
 

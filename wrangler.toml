@@ -4,21 +4,31 @@
 # Custom domain (zone must be attached to your Cloudflare account):
 #   routes = [{ pattern = "link.ankb.qzz.io", custom_domain = true }]
 #
-# First deploy:
-#   1. Create resources (or let wrangler auto-provision by leaving IDs blank):
-#        wrangler d1 create link-center-db
-#        wrangler kv namespace create KV
-#      then paste the returned ids below (or simply run `wrangler deploy`
-#      with the blank bindings — modern Wrangler auto-creates and writes IDs
-#      back to this file).
-#   2. Apply migrations:
-#        wrangler d1 migrations apply link-center-db --remote
-#   3. Set secrets (never commit them):
-#        wrangler secret put BREVO_API_KEY
-#        wrangler secret put BREVO_WEBHOOK_SECRET
-#        wrangler secret put CLICK_SALT
-#   4. Deploy:
-#        wrangler deploy
+# First deploy — two ways:
+#
+#   Option A — automatic provisioning (default, zero config):
+#       The D1 database "link-center-db" and the KV namespace "KV" are
+#       created automatically the first time you run `wrangler deploy`
+#       (IDs are left blank below on purpose).
+#
+#   Option B — create resources yourself and paste their IDs:
+#       Dashboard → Workers & Pages → D1 → Create database  (copy database_id)
+#       Dashboard → Workers & Pages → KV → Create namespace (copy id)
+#       then add `database_id = "..."` / `preview_database_id = "..."`
+#       under [[d1_databases]] and `id = "..."` under [[kv_namespaces]].
+#
+# After the first deploy, run the schema migrations:
+#       npx wrangler d1 migrations apply link-center-db --remote
+# (if you used Option A, find the generated database_id in the dashboard:
+#  D1 → link-center-db → Settings)
+#
+# Secrets (never commit them):
+#       npx wrangler secret put BREVO_API_KEY
+#       npx wrangler secret put BREVO_SENDER_EMAIL
+#       npx wrangler secret put BREVO_SENDER_NAME
+#       npx wrangler secret put BREVO_WEBHOOK_SECRET
+#       npx wrangler secret put CLICK_SALT
+#       npx wrangler secret put SETUP_TOKEN   (optional first-run hardening)
 # ============================================================================
 
 name = "link-center"
@@ -54,20 +64,20 @@ globs = ["**/public/assets/app.js", "**/public/assets/styles.css"]
 fallthrough = false
 
 # --- D1 database ------------------------------------------------------------
-# Leave ids blank for automatic provisioning (wrangler dev / deploy), or fill:
-#   wrangler d1 create link-center-db
+# IDs are intentionally blank → auto-created on first `wrangler deploy`.
+# (Optional) to pin resources, add:
+#   database_id = "..."          # D1 → link-center-db → Settings
+#   preview_database_id = "..."
 [[d1_databases]]
 binding = "DB"
 database_name = "link-center-db"
-database_id = "00000000-0000-0000-0000-000000000000"
-preview_database_id = "00000000-0000-0000-0000-000000000001"
 migrations_dir = "migrations"
 
 # --- KV namespace -----------------------------------------------------------
-#   wrangler kv namespace create KV
+# ID intentionally blank → auto-created on first `wrangler deploy`.
+# (Optional) to pin:  id = "..."  (KV → your namespace → Settings)
 [[kv_namespaces]]
 binding = "KV"
-id = "00000000000000000000000000000000"
 
 # --- Secrets (set with `wrangler secret put <NAME>`, never in this file) ----
 # BREVO_API_KEY          Brevo API key (xkeysib-...). Server-side only.
