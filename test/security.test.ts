@@ -34,6 +34,15 @@ describe('authentication', () => {
     expect(text).not.toContain('BREVO_API_KEY');
   });
 
+  it('clears stale session cookies on /login instead of looping', async () => {
+    const res = await anonFetch('/login', {
+      headers: { cookie: 'session=invalid-or-deleted-user-session-cookie' },
+    });
+    expect(res.status).toBe(200);
+    const text = await res.text();
+    expect(text).toContain('<div id="app"');
+  });
+
   it('hashes passwords with PBKDF2 (no plaintext)', async () => {
     const row = await env.DB.prepare('SELECT password_hash FROM users WHERE username = ?').bind('admin').first<{ password_hash: string }>();
     expect(row?.password_hash).toMatch(/^pbkdf2\$/);
