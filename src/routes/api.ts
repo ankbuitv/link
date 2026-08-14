@@ -51,7 +51,8 @@ import { requireUser, requireUserMutation } from './helpers';
  * ==========================================================================*/
 
 function linkPublicUrl(ctx: Ctx, link: LinkRow): string {
-  return `${cfg(ctx.env).appUrl}/${link.type}/${link.slug}`;
+  const prefixes: Record<LinkRow['type'], string> = { track: 'track', short: 'r', landing: 'go' };
+  return `${cfg(ctx.env).appUrl}/${prefixes[link.type]}/${link.slug}`;
 }
 
 addRoute('GET', '/api/links', async (ctx: Ctx) => {
