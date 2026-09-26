@@ -436,6 +436,43 @@ http://206.212.244.63/639/index.m3u8
 #EXTINF:-1 tvg-id="cbeebies" tvg-logo="https://s72140.cdn.mytvnet.vn/vimages/7d/d5/58/8c/ce/ea/7d58c-pcbeebieshd-channel-unkn.png" group-title="🎬 BOX - International Channels",Cbeebies (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/qbj__gryRPNJXaEni-lzFt0lrASwVOAof6Qr6lPyifgVvxpB8lgruEs/manifest.m3u8?token=Ken1402@
 
+#EXTINF:-1 tvg-id="tv360-promo" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="",TV360 Promo (OTT)
+https://streams.ankb.qzz.io/viettel/tv360-promo.m3u8
+
+#EXTINF:-1 tvg-id="tv360-phim-viet" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/07/15/1775549899305/f54a93a767c5_640_360.png",TV360 Phim Việt (OTT)
+https://streams.ankb.qzz.io/viettel/360-phim-viet.m3u8
+
+#EXTINF:-1 tvg-id="tv360-phim-au-my" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/09/08/1775697767861/9a6dc88794cf_640_360.png",TV360 Phim Âu Mỹ (OTT)
+https://streams.ankb.qzz.io/viettel/360-phim-au-my.m3u8
+
+#EXTINF:-1 tvg-id="tv360-hoat-hinh" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/07/15/1775549978212/fcfc9c6d7919_640_360.png",TV360 Hoạt Hình (OTT)
+https://streams.ankb.qzz.io/viettel/360-hoat-hinh.m3u8
+
+#EXTINF:-1 tvg-id="tv360-phim-hoa-ngu" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/09/08/1775697736867/3854900b7263_640_360.png",TV360 Phim Hoa Ngữ (OTT)
+https://streams.ankb.qzz.io/viettel/360-phim-hoa-ngu.m3u8
+
+#EXTINF:-1 tvg-id="tv360-hanh-dong-chau-a" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/08/10/1775617851169/1f38a5af77c1_640_360.png",TV360 Hành Động Châu Á (OTT)
+https://streams.ankb.qzz.io/viettel/360-hanh-dong-chau-a.m3u8
+
+#EXTINF:-1 tvg-id="tv360-k-drama" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/09/21/1775744591740/79928f9b003f_640_360.png",TV360 K-Drama (OTT)
+https://streams.ankb.qzz.io/viettel/360-k-drama.m3u8
+
+#EXTINF:-1 tvg-id="tv360-hai-tinh-cam" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/13/13/1776063183880/03439dc9da19_640_360.png",TV360 Hài - Tình Cảm (OTT)
+https://streams.ankb.qzz.io/viettel/360-hai-tinh-cam.m3u8
+
+#EXTINF:-1 tvg-id="tv360-phim-kinh-dien" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/13/13/1776063200976/6ced2ef539a4_640_360.png",TV360 Phim Kinh Điển (OTT)
+https://streams.ankb.qzz.io/viettel/360-phim-kinh-dien.m3u8
+
+#EXTINF:-1 tvg-id="tv360-anime" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/13/13/1776063223569/462daff06d9d_640_360.png",TV360 Anime (OTT)
+https://streams.ankb.qzz.io/viettel/360-anime.m3u8
+
+#EXTINF:-1 tvg-id="tv360-thieu-nhi" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/06/18/13/1781765362332/737c1501b0c5_640_360.png",TV360 Thiếu Nhi (OTT)
+https://streams.ankb.qzz.io/viettel/360-thieu-nhi.m3u8
+
+#EXTINF:-1 tvg-id="tv360-phim-4k" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/07/30/10/1785382803894/362700e9107b_640_360.png",TV360 Phim 4K (OTT)
+https://streams.ankb.qzz.io/viettel/360-phim-4k.m3u8
+
+
 # ==========================================
 # 📺 DANH SÁCH KÊNH THỂ THAO
 # Cập nhật ngày: 07/24
@@ -483,19 +520,31 @@ https://vips-livecdn.fptplay.net/live/media/su-kien-07/hls_avc_v6/index.m3u8
 #EXTINF:-1 tvg-id="fpt-10" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://toiyeuvietnam.dpdns.org/Logo/tv360-9/KenhCoBan.png",FPT Sự kiện 10 (OTT)
 https://vips-livecdn.fptplay.net/live/media/su-kien-10/hls_avc_v6/index.m3u8
 
+
+#EXTINF:-1 tvg-id="tv360-c1" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/15/22/177626841934/e289a43bd190_640_360.png",TV360 C1 Châu Âu (OTT)
+https://streams.ankb.qzz.io/viettel/360-c1-chau-au.m3u8
+
+#EXTINF:-1 tvg-id="tv360-c2" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/15/23/1776269925378/3875f76de1cd_640_360.png",TV360 C2 Châu Âu (OTT)
+https://streams.ankb.qzz.io/viettel/360-c2-chau-au.m3u8
+
+#EXTINF:-1 tvg-id="tv360-c3" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/15/23/1776269965595/9f150757c9e3_640_360.png",TV360 C3 Châu Âu (OTT)
+https://streams.ankb.qzz.io/viettel/360-c3-chau-au.m3u8
+
+#EXTINF:-1 tvg-id="tv360-the-thao-chau-a" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/16/00/1776274695415/4b2703dbb4c4_640_360.png",TV360 Thể Thao Châu Á (OTT)
+https://streams.ankb.qzz.io/viettel/360-the-thao-chau-a.m3u8
+
+#EXTINF:-1 tvg-id="tv360-f1" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/15/23/1776269172914/ceaa765c5dbe_640_360.png",TV360 Công Thức 1 (OTT)
+https://streams.ankb.qzz.io/viettel/360-cong-thuc-1.m3u8
+
+#EXTINF:-1 tvg-id="tv360-bundesliga" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/16/08/1776301510855/e14eaed5c4d8_640_360.png",TV360 Bundesliga (OTT)
+https://streams.ankb.qzz.io/viettel/360-bundesliga.m3u8
+
 #EXTINF:-1 tvg-id="tv360-9" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2024/09/30/22/1727709197325/1be646ba55c5_640_360.png",TV360+ 9 (OTT)
-http://chrtv.duckdns.org:30106/hls/tv360_9/1080p.m3u8
+https://streams.ankb.qzz.io/viettel/tv360-9.m3u8
 
 #EXTINF:-1 tvg-id="tv360-10" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2025/09/30/16/1759223393533/4ff09f8a4b49_640_360.png",TV360+ 10 (OTT)
-http://chrtv.duckdns.org:30207/hls/tv360-10/1080p.m3u8
+https://streams.ankb.qzz.io/viettel/tv360-10.m3u8
 
 #EXTINF:-1 tvg-id="tv360-11" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2025/09/30/16/175922342147/3c89be41fe63_640_360.png",TV360+ 11 (OTT)
-#EXTVLCOPT:http-user-agent=Dalvik/2.1.0
-https://vmttv.dpdns.org/tv360/?id=tv360-11
+https://streams.ankb.qzz.io/viettel/tv360-11.m3u8
 
-#EXTINF:-1 tvg-id="tv360-12" group-title="⚽ SPORTS - Thể thao" tvg-logo="https://img-ali1.tv360.vn/image1/2026/03/05/10/1772681417916/2433e49579ab_640_360.png", TV360+12 (OTT)
-#EXTVLCOPT:http-user-agent=Dalvik/2.1.0
-#KODIPROP:inputstream.adaptive.manifest_type=mpd
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=29b3e7c5de895bfa8850f16dad16e378:72a9e1be1d94ad66207f1ac61bcf7681
-https://vmttv.dpdns.org/tv360/?id=tv360-12
