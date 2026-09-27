@@ -4,11 +4,8 @@
 # 📺 DANH SÁCH KÊNH TRUYỀN HÌNH VIỆT NAM
 # Cập nhật ngày: 06/01
 # ==========================================
-#EXTINF:-1 tvg-id="Asian Games Aichi-Nagoya 2026" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5c4275MJrM-CNC1Eg8a4sXA3FqAQx44mvkqpR3FPMPEl9eI-RAeE81dnZ&s=10" group-title="Asian Games Aichi-Nagoya 2026",ASIAD 20 - CH01
-https://vtvgoliveapp1-aws-plus-tn.vtvdigital.vn/aws-sk/asiad_2_paid/live/asiad_2_1080p/chunks.m3u8
-
-#EXTINF:-1 tvg-id="Asian Games Aichi-Nagoya 2026" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5c4275MJrM-CNC1Eg8a4sXA3FqAQx44mvkqpR3FPMPEl9eI-RAeE81dnZ&s=10" group-title="Asian Games Aichi-Nagoya 2026",ASIAD 20 - CH02
-https://vtvgoliveapp1-aws-plus-tn.vtvdigital.vn/aws-sk/asiad_2_paid/live/asiad_2_1080p/chunks.m3u8
+#EXTINF:-1 tvg-id="livestream01" group-title="TH - Vietnamese Channels",Livestream 01(OTT)
+https://streams.ankb.qzz.io/mytv/live01.m3u8
 
 #EXTINF:-1 tvg-id="vietnam-today" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/vuminhthanh12/refs/heads/main/VietnamToday.jpg" group-title="TH - Vietnamese Channels",Vietnam Today (CH 25 - 506MHz)
 https://vips-livecdn.fptplay.net/live/media/vietnamtoday/live-hls-avc/index.m3u8
