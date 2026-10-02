@@ -319,6 +319,9 @@ https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/6WTmvB_
 #EXTINF:-1 tvg-id="boxmovie1" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/boxmovie1.png" group-title="🎬 BOX - International Channels",Box Movie 1 (11549 H 45000 / Cable)
 https://streams.ankb.qzz.io/vtv/boxmovie1.m3u8
 
+#EXTINF:-1 tvg-id="boxhits" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/boxhits.png" group-title="🎬 BOX - International Channels",Box Hits (11549 H 45000 / Cable)
+https://streams.ankb.qzz.io/vtv/boxhits.m3u8
+
 #EXTINF:-1 tvg-id="axn" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/axn.png" catchup="append" catchup-days="2" catchup-source="https://tshift.fptplay.net/dvr/axnhd_1000.stream/chunks_dvr_range-${start}-${offset}.m3u8" group-title="🎬 BOX - International Channels",AXN (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/09uYwmUJ3VsZsXqFi8RJiOOWBcx8yPOLr5-53J-8gnV0f6g/manifest.m3u8?token=Ken1402@
 
