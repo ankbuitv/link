@@ -4,8 +4,6 @@
 # 📺 DANH SÁCH KÊNH TRUYỀN HÌNH VIỆT NAM
 # Cập nhật ngày: 06/01
 # ==========================================
-#EXTINF:-1 tvg-id="livestream01" group-title="TH - Vietnamese Channels",Livestream 01(OTT)
-https://streams.ankb.qzz.io/mytv/live01.m3u8
 
 #EXTINF:-1 tvg-id="vietnam-today" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/vuminhthanh12/refs/heads/main/VietnamToday.jpg" group-title="TH - Vietnamese Channels",Vietnam Today (CH 25 - 506MHz)
 https://vips-livecdn.fptplay.net/live/media/vietnamtoday/live-hls-avc/index.m3u8
@@ -317,6 +315,7 @@ https://devda.undo.it/Stream/index.php?id=tv&ext=.m3u8
 # ==========================================
 #EXTINF:-1 tvg-id="hbohd" tvg-logo="https://i.pinimg.com/originals/8b/02/00/8b020050690f955ccb306cdf51324aea.png" group-title="🎬 BOX - International Channels",HBO (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/6WTmvB_gCMCw_XrF273svd6LHFBjrGqE6M6Jw7LQBgXYjfIx/manifest.m3u8?token=Ken1402@
+
 #EXTINF:-1 tvg-id="boxmovie1" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/boxmovie1.png" group-title="🎬 BOX - International Channels",Box Movie 1 (11549 H 45000 / Cable)
 https://streams.ankb.qzz.io/vtv/boxmovie1.m3u8
 
