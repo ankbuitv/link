@@ -549,3 +549,6 @@ https://streams.ankb.qzz.io/viettel/tv360-10.m3u8
 #EXTINF:-1 tvg-id="tv360-11" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2025/09/30/16/175922342147/3c89be41fe63_640_360.png",TV360+ 11 (OTT)
 https://streams.ankb.qzz.io/viettel/tv360-11.m3u8
 
+#EXTINF:-1 tvg-id="tv360-13" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2026/03/05/10/1772681417916/2433e49579ab_640_360.png",TV360+ 12 (OTT)
+https://streams.ankb.qzz.io/viettel/tv360-12.m3u8
+
