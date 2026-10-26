@@ -285,12 +285,6 @@ https://devda.undo.it/Stream/index.php?id=tv&ext=.m3u8
 #EXTINF:-1 tvg-id="hbohd" tvg-logo="https://i.pinimg.com/originals/8b/02/00/8b020050690f955ccb306cdf51324aea.png" group-title="🎬 BOX - International Channels",HBO (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/6WTmvB_gCMCw_XrF273svd6LHFBjrGqE6M6Jw7LQBgXYjfIx/manifest.m3u8?token=Ken1402@
 
-#EXTINF:-1 tvg-id="boxmovie1" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/boxmovie1.png" group-title="🎬 BOX - International Channels",Box Movie 1 (11549 H 45000 / Cable)
-https://streams.ankb.qzz.io/vtv/boxmovie1.m3u8
-
-#EXTINF:-1 tvg-id="boxhits" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/boxhits.png" group-title="🎬 BOX - International Channels",Box Hits (11549 H 45000 / Cable)
-https://streams.ankb.qzz.io/vtv/boxhits.m3u8
-
 #EXTINF:-1 tvg-id="axn" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/axn.png" catchup="append" catchup-days="2" catchup-source="https://tshift.fptplay.net/dvr/axnhd_1000.stream/chunks_dvr_range-${start}-${offset}.m3u8" group-title="🎬 BOX - International Channels",AXN (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/09uYwmUJ3VsZsXqFi8RJiOOWBcx8yPOLr5-53J-8gnV0f6g/manifest.m3u8?token=Ken1402@
 
@@ -492,3 +486,18 @@ https://streams.ankb.qzz.io/viettel/tv360-11.m3u8
 
 #EXTINF:-1 tvg-id="tv360-13" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2026/03/05/10/1772681417916/2433e49579ab_640_360.png",TV360+ 12 (OTT)
 https://streams.ankb.qzz.io/viettel/tv360-12.m3u8
+
+# ==========================================
+# 📺 DANH SÁCH NHẠC
+# Cập nhật ngày: 10/26
+# ==========================================
+
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://photo-zmp3.zmdcdn.me/cover_rect/e/1/8/8/e1887a2c79f9d3d04984905cbf443a29.jpg", Kpop
+https://streams.ankb.qzz.io/mytv/kpop.m3u8
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://photo-zmp3.zmdcdn.me/cover_rect/3/1/0/d/310df4f53c1026d4cb2844dc96cc01d3.jpg", USUK
+https://streams.ankb.qzz.io/mytv/us-uk.m3u8
+
+#EXTINF:-1 group-title="Music" tvg-logo="https://photo-zmp3.zmdcdn.me/cover_rect/a/6/f/4/a6f4712ca91e9cc15530960ab44611da.jpg", EDM
+https://streams.ankb.qzz.io/mytv/edm.m3u8
