@@ -484,8 +484,14 @@ https://streams.ankb.qzz.io/viettel/tv360-10.m3u8
 #EXTINF:-1 tvg-id="tv360-11" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2025/09/30/16/175922342147/3c89be41fe63_640_360.png",TV360+ 11 (OTT)
 https://streams.ankb.qzz.io/viettel/tv360-11.m3u8
 
-#EXTINF:-1 tvg-id="tv360-13" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-ali1.tv360.vn/image1/2026/03/05/10/1772681417916/2433e49579ab_640_360.png",TV360+ 12 (OTT)
-https://streams.ankb.qzz.io/viettel/tv360-12.m3u8
+#EXTINF:-1 tvg-id="spotv" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://linear-poster.astro.com.my/prod/logo/SPOTV.png",SPOTV (OTT)
+http://bestiptvgo.net:80/live/2E3LJPJ/WNSMMKF/1052592.m3u8
+
+#EXTINF:-1 tvg-id="spotv2" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://linear-poster.astro.com.my/prod/logo/SPOTV2.png",SPOTV 2 (OTT)
+http://bestiptvgo.net:80/live/2E3LJPJ/WNSMMKF/957706.m3u8
+
+#EXTINF:-1 tvg-id="astropl" group-title="⚽ SPORTS - Thể thao" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://linear-poster.astro.com.my/prod/logo/AstroPremierLeague_2024.png",Astro Premier League (OTT)
+http://4kgood.org:80/live/Ayouragadi_988033/wsyxICxa/1163684.m3u8
 
 # ==========================================
 # 📺 DANH SÁCH NHẠC
