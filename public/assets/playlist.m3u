@@ -433,6 +433,9 @@ https://streams.ankb.qzz.io/viettel/360-thieu-nhi.m3u8
 #EXTINF:-1 tvg-id="tv360-phim-4k" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/07/30/10/1785382803894/362700e9107b_640_360.png",TV360 Phim 4K (OTT)
 https://streams.ankb.qzz.io/viettel/360-phim-4k.m3u8
 
+#EXTINF:-1 tvg-id="tv360-mrbean" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-evg1.tv360.vn/image1/2026/10/13/09/1791858821345/520250e785d1_640_360.png",TV360 Mr Bean (OTT)
+https://streams.ankb.qzz.io/viettel/tv360-mrbean.m3u8
+
 
 # ==========================================
 # 📺 DANH SÁCH KÊNH THỂ THAO
