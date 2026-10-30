@@ -397,8 +397,11 @@ http://206.212.244.63/639/index.m3u8
 #EXTINF:-1 tvg-id="cbeebies" tvg-logo="https://s72140.cdn.mytvnet.vn/vimages/7d/d5/58/8c/ce/ea/7d58c-pcbeebieshd-channel-unkn.png" group-title="🎬 BOX - International Channels",Cbeebies (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/qbj__gryRPNJXaEni-lzFt0lrASwVOAof6Qr6lPyifgVvxpB8lgruEs/manifest.m3u8?token=Ken1402@
 
-#EXTINF:-1 tvg-id="tv360-promo" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="",TV360 Promo (OTT)
+#EXTINF:-1 tvg-id="tv360-promo" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2025/09/17/17/175810574912/a5f8181388ab_640_360.png",TV360 Promo (OTT)
 https://streams.ankb.qzz.io/viettel/tv360-promo.m3u8
+
+#EXTINF:-1 tvg-id="tv360-livestream" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-evg1.tv360.vn/image1/2026/10/09/18/1791545103696/96eed9b7eda2_480_270.png",TV360 Livestream (OTT)
+https://livestream-evg8.tv360.vn/XhL-KaH5WolcieSMFtGUsw/1793457399/manifest/livestream-04/master.m3u8?manifestfilter=video_bitrate:1-12767168&uid=111732595
 
 #EXTINF:-1 tvg-id="tv360-phim-viet" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-zlr1.tv360.vn/image1/2026/04/07/15/1775549899305/f54a93a767c5_640_360.png",TV360 Phim Việt (OTT)
 https://streams.ankb.qzz.io/viettel/360-phim-viet.m3u8
@@ -435,6 +438,9 @@ https://streams.ankb.qzz.io/viettel/360-phim-4k.m3u8
 
 #EXTINF:-1 tvg-id="tv360-mrbean" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-evg1.tv360.vn/image1/2026/10/13/09/1791858821345/520250e785d1_640_360.png",TV360 Mr Bean (OTT)
 https://streams.ankb.qzz.io/viettel/tv360-mrbean.m3u8
+
+#EXTINF:-1 tvg-id="tv360-doraemon" group-title="🎬 BOX - International Channels" group-logo="https://toiyeuvietnam.dpdns.org/HoiQuanLogo/Images/HinhNhom.png" tvg-logo="https://img-evg1.tv360.vn/image1/2026/10/13/09/1791859203131/6878ad4f88c0_480_270.png",TV360 Doraemon (OTT)
+https://streams.ankb.qzz.io/viettel/360-doraemon.m3u8
 
 
 # ==========================================
