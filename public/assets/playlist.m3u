@@ -288,6 +288,9 @@ https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/6WTmvB_
 #EXTINF:-1 tvg-id="axn" tvg-logo="https://raw.githubusercontent.com/vuminhthanh12/Logo/refs/heads/main/axn.png" catchup="append" catchup-days="2" catchup-source="https://tshift.fptplay.net/dvr/axnhd_1000.stream/chunks_dvr_range-${start}-${offset}.m3u8" group-title="🎬 BOX - International Channels",AXN (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/09uYwmUJ3VsZsXqFi8RJiOOWBcx8yPOLr5-53J-8gnV0f6g/manifest.m3u8?token=Ken1402@
 
+#EXTINF:-1 tvg-id="animax" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Animax_logo.svg/330px-Animax_logo.svg.png" catchup="append" catchup-days="2" catchup-source="https://tshift.fptplay.net/dvr/axnhd_1000.stream/chunks_dvr_range-${start}-${offset}.m3u8" group-title="🎬 BOX - International Channels",Animax (OTT)
+https://sg002-cdw039026playnow.ankb.qzz.io/copyrighted/api/stream/GETftplay/-GwqAGIqgLHgU4I3M41HVqFVu1GGY4CCEJqq-PZH9fX-og/manifest.m3u8?token=Ken1402@
+
 #EXTINF:-1 tvg-id="warnertvhd" tvg-logo="https://s7774.cdn.mytvnet.vn/vimages/6b/ba/a3/36/60/0a/6ba36-pwarnerhd-channel-unkn.png" catchup="append" catchup-days="2" catchup-source="https://tshift.fptplay.net/dvr/warnertv_1000.stream/chunks_dvr_range-${start}-${offset}.m3u8" group-title="🎬 BOX - International Channels",Warner TV (11549 H 45000 / Cable)
 https://sg002-cdw039026playnow.ankb.qzz.io/dashdrm/api/stream/GETdashdrm/UuX3y1k1HLi0nXj0XSc0ucjCvWb-rODqwUVaAp46F1GJZCLSizHa/manifest.m3u8?token=Ken1402@
 
